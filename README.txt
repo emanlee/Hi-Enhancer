@@ -4,7 +4,6 @@ Hi-Enhancer: a two-stage framework for prediction and localization of enhancers 
 
 INSTALLATION
 -------------
-Hi-Enhancer is a two-stage framework for predicting and localizing genetic enhancers (enhancers). It accurately identifies the presence of enhancers and their boundaries by flexibly combining multiple epigenetic signals. The framework is particularly suitable for situations where not all epigenetic signals are available, providing an efficient and flexible solution.
 
 Hi-Enhancer relies on the following environments and tools:
 ------------
