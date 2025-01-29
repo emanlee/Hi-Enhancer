@@ -4,6 +4,7 @@ Hi-Enhancer: a two-stage framework for prediction and localization of enhancers 
 
 INSTALLATION
 -------------
+https://www.youtube.com/playlist?list=PLWQiu8dLtUx4kmp3XkNk0SUU4cIjkiOdD
 
 
 Hi-Enhancer relies on the following environments and tools:
