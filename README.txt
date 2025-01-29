@@ -41,7 +41,7 @@ Chip2-H3k4me3
 Chip3-H3k9ac
 Chip4-H3K4me1
 Chip5-DNAseq
-The data can be obtained from https://sourceforge.net/projects/hi-enhancer/. After downloading, it should be saved to the current folder. Users can replace the data or select appropriate signal combinations according to actual requirements.
+The data can be obtained from https://sourceforge.net/projects/hi-enhancer/files/Blending_kan_data/. After downloading, it should be saved to the current folder. Users can replace the data or select appropriate signal combinations according to actual requirements.
 
 
 #
@@ -55,7 +55,7 @@ Example: Take the combination of chip1 and chip3 as an example. [about 1.2 hours
  (example samples are chip1_train_7-3.csv, chip3_train_7-3.csv)
 $ python Layer1_signal.py --chips chip1 chip3
 
-2.#Train the meta-classifier, if not run step 1, it is recommended to use the trained base classifiers directly (our trained model is available from https://sourceforge.net/projects/hi-enhancer/, download it, unzip, and put it in the current folder.)
+2.#Train the meta-classifier, if not run step 1, it is recommended to use the trained base classifiers directly (our trained model is available from https://sourceforge.net/projects/hi-enhancer/files/phase1_models/, download it, unzip, and put it in the current folder.)
 (Example samples are chip1_test_7-3.csv, chip3_test_7-3.csv)
  Example: to use the combination of chip1 and chip3 as an example
 $ python Layer2_signal.py --chips chip1 chip3
@@ -91,10 +91,11 @@ $ python train.py
 #Test the model on an independent test set code
 $ python test.py
 
-2.Directly use the trained model to realize the enhancer boundary localization (our trained model can be obtained from https://sourceforge.net/projects/hi-enhancer/, we recommend to use it directly)
+2.Directly use the trained model to realize the enhancer boundary localization (our trained model can be obtained from https://sourceforge.net/projects/hi-enhancer/files/phase2_models/output_folder.zip, we recommend to use it directly, download and unzip it)
+
 #Extract DNA sequences：For the samples predicted to be positive classes in the first stage, extract their sequences using a sliding window to split the enhancer region into 200 bp sub-sequences and extract the features using DNABERT-2.
 
-Download zhihan1996.zip from https://sourceforge.net/projects/hi-enhancer/files/phase2_models/, put it into the Blending-KAN folder, unzip it. 
+Download zhihan1996.zip from https://sourceforge.net/projects/hi-enhancer/files/phase2_models/zhihan1996.zip, put it into the Blending-KAN folder, unzip it. 
 
 $python 200bp_feature.py 
 
