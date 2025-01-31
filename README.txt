@@ -5,7 +5,7 @@ Hi-Enhancer: a two-stage framework for prediction and localization of enhancers 
 INSTALLATION
 -------------
 https://www.youtube.com/playlist?list=PLWQiu8dLtUx4kmp3XkNk0SUU4cIjkiOdD
-
+[Without voice]
 
 Hi-Enhancer relies on the following environments and tools:
 ------------
@@ -30,6 +30,8 @@ $ python3 -m pip install -r requirements.txt
 
 # [Skip this step] Installation of KAN：The KAN network code is saved in the ./Blending-KAN/efficient_kan folder. The original project address is https://github.com/Blealtan/efficient-kan
 
+
+===========================================================
 Usage
 Phase 1: Enhancer Region Prediction
 cd Blending-KAN
@@ -61,7 +63,8 @@ $ python Layer1_signal.py --chips chip1 chip3
 $ python Layer2_signal.py --chips chip1 chip3
 
 3.Use the trained model to predict new samples
- # To use chip1, the chip3 for example, the example samples are chip1_predict.csv, chip3_predict.csv, the results are saved in predictions.csv after the prediction.
+#When users use their own data for prediction, they need to aggregate the selected signals by each 10 bp (base pair) interval and calculate the average value of each interval. After the aggregation process, the length of the signal data for each sample should be 400. After that, each signal data is converted to a CSV file separately and column headings are added for each column. The file naming format is chipX_predict.csv, where X is the signal number (as described in the #Data Preparation section). Specific file formats can be found in the example samples chip1_predict.csv and chip3_predict.csv.
+# To use chip1, the chip3 for example, the example samples are chip1_predict.csv, chip3_predict.csv, the results are saved in predictions.csv after the prediction.
 $ python predict_signal.py --chips chip1 chip3
 
 $ more predictions.csv  
@@ -79,6 +82,8 @@ Sample_ID,Predicted_Class,Predicted_Probability
 
 1  enhancer,  0  non-enhancer, 
 
+
+===========================================================
 Phase 2:
 $ cd Stacking-Auto
 
@@ -105,7 +110,7 @@ $python predict.py
 $python location.py
 
   
-==============
+===========================================================
 Dr. Aimin Li, Associate Professor
 School of Computer Science and Engineering,
 Xi'an University of Technology,
