@@ -64,23 +64,23 @@ $ python Layer2_signal.py --chips chip1 chip3
 
 3.Use the trained model to predict new samples
 #When users use their own data for prediction, they need to aggregate the selected signals by each 10 bp (base pair) interval and calculate the average value of each interval. After the aggregation process, the length of the signal data for each sample should be 400. After that, each signal data is converted to a CSV file separately and column headings are added for each column. The file naming format is chipX_predict.csv, where X is the signal number (as described in the #Data Preparation section). Specific file formats can be found in the example samples chip1_predict.csv and chip3_predict.csv.
-# To use chip1, the chip3 for example, the example samples are chip1_predict.csv, chip3_predict.csv, the results are saved in predictions.csv after the prediction.
+# To use chip1, the chip3 for example, the example samples are chip1_predict.csv, chip3_predict.csv, the results are saved in predictions_with_probabilities.csv after the prediction.
 $ python predict_signal.py --chips chip1 chip3
 
-$ more predictions.csv  
-Sample_ID,Predicted_Class,Predicted_Probability
-0,1,0.929342
-1,1,1.2520199
-2,1,0.929342
-3,1,0.929342
-4,1,0.929342
-5,0,0.24864486
-6,0,-0.9822619
-7,1,1.4764237
-8,1,1.4764237
-9,1,0.929342
+# The second column in predictions_with_probabilities.csv: 1 means enhancer,  0 means non-enhancer.
 
-1  enhancer,  0  non-enhancer, 
+$ more predictions_with_probabilities.csv  
+Sample_ID,Predicted_Class,Probability_Class_0,Probability_Class_1
+0,1,0.37633184,0.62366813
+1,1,0.18956867,0.81043136
+2,1,0.37633184,0.62366813
+3,1,0.37633184,0.62366813
+4,1,0.37633184,0.62366813
+5,0,0.7790332,0.22096688
+6,0,0.97502553,0.024974462
+7,1,0.11045961,0.88954043
+8,1,0.11045961,0.88954043
+9,1,0.37633184,0.62366813
 
 
 ===========================================================
