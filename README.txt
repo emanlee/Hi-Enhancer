@@ -46,6 +46,18 @@ Chip5-DNAseq
 The data can be obtained from https://sourceforge.net/projects/hi-enhancer/files/Blending_kan_data/. After downloading, it should be saved to the current folder. Users can replace the data or select appropriate signal combinations according to actual requirements.
 
 
+If you use your own data, you should use the following code to extract ChIP-seq/DNase-seq signal features from BigWig files.
+$python extract_signalvalues_by_reions.py \
+    -b path/to/chipseq.bigWig \
+    -r path/to/regions.bed \
+    -o path/to/output_features.csv \
+    -w 4000 \
+    -n 400
+
+Example（Take DNase-seq for extraction of HCT116 as an example）:
+$python extract_signalvalues_by_reions.py     -b HCT116.DNase-seq.bigWig     -r HCT116.positive.bed     -o output_features.csv     -w 4000     -n 400
+
+
 #
 #--The --chips parameter is used so that the user can select the appropriate combination of signals to be used according to actual requirements. In the command, --chips can be followed by one or more signal names separated by spaces.
 
@@ -64,23 +76,36 @@ $ python Layer2_signal.py --chips chip1 chip3
 
 3.Use the trained model to predict new samples
 #When users use their own data for prediction, they need to aggregate the selected signals by each 10 bp (base pair) interval and calculate the average value of each interval. After the aggregation process, the length of the signal data for each sample should be 400. After that, each signal data is converted to a CSV file separately and column headings are added for each column. The file naming format is chipX_predict.csv, where X is the signal number (as described in the #Data Preparation section). Specific file formats can be found in the example samples chip1_predict.csv and chip3_predict.csv.
+#The user is required to also input the sample's bed file (i.e., the bed file used in the Data Preparation section) to contain the sample's chromosome information, start position, and end position.
 # To use chip1, the chip3 for example, the example samples are chip1_predict.csv, chip3_predict.csv, the results are saved in predictions_with_probabilities.csv after the prediction.
-$ python predict_signal.py --chips chip1 chip3
+$python predict_signal.py --chips chip1,chip3 --bed_file path/to/your_bed_file.bed
 
-# The second column in predictions_with_probabilities.csv: 1 means enhancer,  0 means non-enhancer.
+# Predicted results contain chromosome information, start position and end position.The second column in predictions_with_probabilities.csv: 1 means enhancer,  0 means non-enhancer.
+$ head predictions_with_probabilities.csv  
+Sample_ID	Predicted_Class	Probability_Class_0	Probability_Class_1	Chromosome	Start_Position	End_Position
+0	1	0.40294233	0.5970577	chr1	1248320	1252321
+1	1	0.12454599	0.875454	chr1	1503611	1507612
+2	1	0.25905165	0.7409483	chr1	2178568	2182569
+3	1	0.40294233	0.5970577	chr1	2546909	2550910
+4	1	0.40294233	0.5970577	chr1	5884020	5888021
+5	0	0.96190983	0.03809011	chr1	5915842	5919843
+6	0	0.97383547	0.02616448	chr1	6197802	6201803
+7	1	0.12684299	0.873157	chr1	6599207	6603208
+8	1	0.12684299	0.873157	chr1	8196013	8200014
 
-$ more predictions_with_probabilities.csv  
-Sample_ID,Predicted_Class,Probability_Class_0,Probability_Class_1
-0,1,0.37633184,0.62366813
-1,1,0.18956867,0.81043136
-2,1,0.37633184,0.62366813
-3,1,0.37633184,0.62366813
-4,1,0.37633184,0.62366813
-5,0,0.7790332,0.22096688
-6,0,0.97502553,0.024974462
-7,1,0.11045961,0.88954043
-8,1,0.11045961,0.88954043
-9,1,0.37633184,0.62366813
+The second column: 1  means enhancer,  0 means non-enhancer
+
+
+4.Extract the bed file predicted to be a positive class and extract its sequences.
+#Users should select the genome reference file according to their actual situation and download it to the current folder.
+#Let's take hg38.fa as an example, assuming that hg38.fa has already been downloaded.
+$python extract_DNA_sequences.py \
+    --input_csv predictions_with_probabilities.csv \
+    --output_bed positive_samples.bed \
+    --output_fasta positive_samples.fasta \
+    --genome_fasta hg38.fa\
+    --output_csv output_sequences.csv
+#output_sequences.csv is the extracted enhancer region, which can be renamed and used directly in Phase 2 to localize enhancers.
 
 
 ===========================================================
@@ -128,3 +153,4 @@ Xi'an, Shaanxi 710048, China
 
 2350837044@qq.com 
 
+# updated on Feb 21, 2025
