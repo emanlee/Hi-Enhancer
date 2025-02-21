@@ -1,12 +1,11 @@
-#  
-"""
+ï»¿"""
 Extract ChIP-seq/DNase-seq signal features from BigWig files.
 
-regions file example (seperated by Tab):
-chr1	1005800	1007301
-chr1	1005960	1007461
-chr1	1304100	1305601
-chr1	1304304	1305805
+regions file example (seperated by Tab, each region is 4000 in size):
+chr1	1005800	1009799
+chr1	1005960	1009959
+chr1	1304100	1308099
+chr1	1304304	1308303
 
 
 $python extract_signalvalues_by_reions.py \
@@ -16,7 +15,7 @@ $python extract_signalvalues_by_reions.py \
     -w 4000 \
     -n 400
 
-Example£¨Take DNase-seq for extraction of HCT116 as an example£©:
+Exampleï¼ˆTake DNase-seq for extraction of HCT116 as an exampleï¼‰:
 $python extract_signalvalues_by_reions.py     -b HCT116.DNase-seq.bigWig     -r HCT116.positive.bed     -o output_features.csv     -w 4000     -n 400
 
 
@@ -28,6 +27,7 @@ import pyBigWig
 import pybedtools
 from pybedtools import BedTool
 import csv
+import datetime
 
 # ----- Parse command line arguments ----- #
 def parse_arguments():
@@ -105,6 +105,7 @@ def save_feature_matrix(feature_matrix, output_path, num_bins):
 
 # ----- Main function ----- #
 def main():
+    print( datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  )
     args = parse_arguments()
 
     print("Extracting signal features...")
@@ -117,6 +118,7 @@ def main():
 
     print("Saving feature matrix...")
     save_feature_matrix(feature_matrix, args.output, args.num_bins)
-
+    print( datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  )
+	
 if __name__ == "__main__":
     main()

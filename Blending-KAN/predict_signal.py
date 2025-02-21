@@ -14,6 +14,12 @@ def parse_args():
         help="Comma-separated list of chips (e.g., 'chip1,chip3,chip5')", 
         default='chip1,chip2,chip3,chip4,chip5'
     )
+    parser.add_argument(
+        '--bed_file', 
+        type=str, 
+        help="Path to the BED file containing sample positions", 
+        default=None
+    )
     return parser.parse_args()
 
 # Parse command-line arguments
@@ -102,17 +108,24 @@ with torch.no_grad():
     predictions_numpy = probabilities.numpy()
     final_predictions_classes = np.argmax(predictions_numpy, axis=1)
 
-# Save the predictions to a CSV file (including the top two probabilities)
+# Create the output DataFrame
 output_df = pd.DataFrame({
     'Sample_ID': test_data[selected_chips[0]].index,  # Use the index of the first chip as Sample_ID
-    'Predicted_Class': final_predictions_classes  # Predicted classes
+    'Predicted_Class': final_predictions_classes,  # Predicted classes
+    'Probability_Class_0': predictions_numpy[:, 0],
+    'Probability_Class_1': predictions_numpy[:, 1]
 })
 
-# Add the top two probabilities to the DataFrame
-output_df['Probability_Class_0'] = predictions_numpy[:, 0]
-output_df['Probability_Class_1'] = predictions_numpy[:, 1]
+# If a BED file is provided, add the chromosome, start and end positions to the output DataFrame
+if args.bed_file:
+    bed_df = pd.read_csv(args.bed_file, sep='\t', header=None, names=['chrom', 'start', 'end', 'name', 'score', 'strand'])
+    output_df['Chromosome'] = bed_df['chrom']
+    output_df['Start_Position'] = bed_df['start']
+    output_df['End_Position'] = bed_df['end']
 
 # Save the prediction results to a CSV file
 output_df.to_csv(path + 'predictions_with_probabilities.csv', index=False)
 
 print("Prediction results (including the top two probabilities) have been saved to 'predictions_with_probabilities.csv'.")
+if args.bed_file:
+    print("Chromosome, start and end positions from the BED file have been included in the output.")
