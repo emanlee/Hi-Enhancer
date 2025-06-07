@@ -10,8 +10,12 @@ https://www.youtube.com/playlist?list=PLWQiu8dLtUx4kmp3XkNk0SUU4cIjkiOdD
 Hi-Enhancer relies on the following environments and tools:
 ------------
 + Linux/Mac OS
-+ Anaconda3 
++ Anaconda3 (or Miniconda3 for lighter resource requirements) 
+Please note that while Hi-Enhancer has been tested with Anaconda3, it is also compatible with Miniconda3 or other virtual environment tools. Users can choose the most suitable environment manager based on their system resources and preferences.
 
+GPU usage instructions
+To take full advantage of the Hi-Enhancer framework for enhancer prediction and localization, we recommend using a GPU to accelerate the model training and testing process. In our tests, the complete training of the model took more than ten hours using an NVIDIA 1080 GPU. This long training process can put a strain on computational resources, so we strongly recommend using a GPU for model training.
+In addition, even if you choose to use our pre-trained models directly, a GPU is recommended to ensure faster processing speeds and greater efficiency in model inference and application.
 
 Configure the environment
 # create and activate virtual python environment [User can use anaconda3 or other tools to create a virutual environment. Here we use anaconda3. ]
@@ -143,7 +147,8 @@ Xi'an University of Technology,
 Xi'an, Shaanxi 710048, China
 
 liaiminmail AT gmail.com
-aimin.li AT xaut.edu.com
+aimin.li AT xaut.edu.cn
+
 
 Mr. Haotian Zhou, Master Student
 School of Computer Science and Engineering,
@@ -151,6 +156,6 @@ Xi'an University of Technology,
 5 South Jinhua Road,
 Xi'an, Shaanxi 710048, China
 
-2350837044@qq.com 
+2350837044 AT qq.com 
 
-# updated on Feb 21, 2025
+# updated on June 7, 2025
